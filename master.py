@@ -27,6 +27,11 @@ class Window(Frame):
          
         # changing the title of our master widget      
         self.master.title("WORD-TO-DANEO")
+
+        # setting the icon
+        load = Image.open("includes/img/icon.png")
+        icon = ImageTk.PhotoImage(load)
+        self.tk.call('wm', 'iconphoto', root._w, icon)
  
         # allowing the widget to take the full space of the root window
         self.pack(fill=BOTH, expand=1)
