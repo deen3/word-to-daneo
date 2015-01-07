@@ -254,9 +254,16 @@ class Window(Frame):
         if CURRID.get() == "":
             showwarning(title="Updating Record", message="Please select a record to modify!")            
         else:
+            # get values
+            word = CURRWORD.get()
+            trans = CURRTRANS.get()
+            han = CURRHAN.get()
+            dif = CURRDIF.get()
+
+            # then refresh
             self.refresh()
 
-            self.form(CURRWORD.get(), CURRTRANS.get(), CURRHAN.get(), CURRDIF.get())
+            self.form(word, trans, han, dif)
 
             # load images to use
             load = Image.open("includes/img/btn_submit.png")
