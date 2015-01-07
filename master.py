@@ -237,10 +237,8 @@ class Window(Frame):
         self.form("","","","")
         
         # load images to use
-        load = Image.open("includes/img/btn_submit.png")
-        btnSb = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn_cancel.png")
-        btnCn = ImageTk.PhotoImage(load)
+        btnSb = ImageTk.PhotoImage(Image.open("includes/img/submit.png"))
+        btnCn = ImageTk.PhotoImage(Image.open("includes/img/cancel.png"))
 
         # display buttons
         btn = Button(self, bd=0, bg="black", image=btnSb, command=self.submitClicked)
@@ -266,10 +264,8 @@ class Window(Frame):
             self.form(word, trans, han, dif)
 
             # load images to use
-            load = Image.open("includes/img/btn_submit.png")
-            btnSb = ImageTk.PhotoImage(load)
-            load = Image.open("includes/img/btn_cancel.png")
-            btnCn = ImageTk.PhotoImage(load)
+            btnSa = ImageTk.PhotoImage(Image.open("includes/img/save.png"))
+            btnCn = ImageTk.PhotoImage(Image.open("includes/img/cancel.png"))
 
             # display buttons
             btn = Button(self, bd=0, bg="black", image=btnSb, command=self.updateClicked)
