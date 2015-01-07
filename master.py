@@ -197,24 +197,24 @@ class Window(Frame):
         d.set(dif)
         
         # display input textboxes
-        self.txtWord = Entry(self, bd=0, bg="lightgreen", width="37", textvariable=w, font=("Tahoma", 11))
-        self.txtWord.place(x=400, y=160)
+        self.txtWord = Entry(self, bd=0, bg="lightgreen", width="35", textvariable=w, font=("Tahoma", 11))
+        self.txtWord.place(x=450, y=160)
 
-        self.txtTrans = Entry(self, bd=0, bg="lightgreen", width="33", textvariable=t, font=("Tahoma", 12))
-        self.txtTrans.place(x=400, y=200)
+        self.txtTrans = Entry(self, bd=0, bg="lightgreen", width="31", textvariable=t, font=("Tahoma", 12))
+        self.txtTrans.place(x=450, y=200)
 
-        self.txtHan = Entry(self, bd=0, bg="lightgreen", width="33", textvariable=h, font=("Tahoma", 12))
-        self.txtHan.place(x=400, y=240)
+        self.txtHan = Entry(self, bd=0, bg="lightgreen", width="31", textvariable=h, font=("Tahoma", 12))
+        self.txtHan.place(x=450, y=240)
 
-        self.txtDif = Text(self, bd=0, bg="lightgreen", width="33", height="5", font=("Tahoma", 12))# textvariable=d,
-        self.txtDif.place(x=400, y=280)
+        self.txtDif = Text(self, bd=0, bg="lightgreen", width="31", height="5", font=("Tahoma", 12))# textvariable=d,
+        self.txtDif.place(x=450, y=280)
         self.txtDif.insert(INSERT, d.get())
 
         # display labels
-        Label(self, bd=0, text="English Word:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=160)
-        Label(self, bd=0, text="Korean Translation:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=200)
-        Label(self, bd=0, text="Korean Writing:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=240)
-        Label(self, bd=0, text="Definition:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=280)
+        Label(self, bd=0, text="English Word:", bg="skyblue", font=("Agency FB", 16)).place(x=330, y=160)
+        Label(self, bd=0, text="Korean Translation:", bg="skyblue", font=("Agency FB", 16)).place(x=330, y=200)
+        Label(self, bd=0, text="Korean Writing:", bg="skyblue", font=("Agency FB", 16)).place(x=330, y=240)
+        Label(self, bd=0, text="Definition:", bg="skyblue", font=("Agency FB", 16)).place(x=330, y=280)
 
     def lbSelected(self, event):
         self.displayInfo(self.lb.get(ACTIVE))
