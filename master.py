@@ -52,22 +52,11 @@ class Window(Frame):
 
         # load images to use
         bg = ImageTk.PhotoImage(Image.open("includes/img/bg.png"))
-        btnIm = ImageTk.PhotoImage(Image.open("includes/img/search.png"))
-        load = Image.open("includes/img/btn_main.png")
-        self.btnMain = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn_mainH.png")
-        self.btnMainH = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/add.png")
-        self.btnAdd = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn_addH.png")
-        self.btnAddH = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/aboutBtn.png")
-        self.btnAbout = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn_aboutH.png")
-        self.btnAboutH = ImageTk.PhotoImage(load)
-        # load images to use
-        btnEd = ImageTk.PhotoImage(Image.open("includes/img/edit.png"))
-        btnDl = ImageTk.PhotoImage(Image.open("includes/img/delete.png"))
+        btnSearch = ImageTk.PhotoImage(Image.open("includes/img/search.png"))
+        self.btnAdd = ImageTk.PhotoImage(Image.open("includes/img/add.png"))
+        self.btnAbout = ImageTk.PhotoImage(Image.open("includes/img/aboutBtn.png"))
+        self.btnEd = ImageTk.PhotoImage(Image.open("includes/img/edit.png"))
+        self.btnDl = ImageTk.PhotoImage(Image.open("includes/img/delete.png"))
 
         # display background
         img = Label(self, image=bg)
@@ -79,35 +68,29 @@ class Window(Frame):
 
         # display search textbox
         self.txtSearch = Entry(self, bd=0, width="28")
-        self.txtSearch.place(x=50, y=140)
+        self.txtSearch.place(x=30, y=110)
         
         # display search button
-        btn = Button(self, bd=0, bg="skyblue", cursor="hand1", image=btnIm, command=self.searchClicked)
-        btn.image = btnIm
-        btn.place(x=230, y=128)
+        btn = Button(self, bd=0, bg="skyblue", cursor="hand1", image=btnSearch, command=self.searchClicked)
+        btn.image = btnSearch
+        btn.place(x=210, y=100)
 
         # display side buttons
-        self.btn1 = Button(self, bd=0, bg="black", image=self.btnMain, command=self.mainClicked)
-        self.btn1.image = self.btnMain
-        self.btn1.place(x=100, y=450)
-##        self.btn1.bind('<Enter>', self.btn1Enter)
-##        self.btn1.bind('<Leave>', self.btn1Leave)
-##        
         self.btn2 = Button(self, bd=0, bg="black", image=self.btnAdd, command=self.addClicked)
         self.btn2.image = self.btnAdd
-        self.btn2.place(x=550, y=450)
+        self.btn2.place(x=550, y=515)
 ##        self.btn2.bind('<Enter>', self.btn2Enter)
 ##        self.btn2.bind('<Leave>', self.btn2Leave)
         # display buttons
-        btn = Button(self, bd=0, bg="black", image=btnEd, command=self.editClicked)
-        btn.image=btnEd
-        btn.place(x=600, y=450)
-        btn = Button(self, bd=0, bg="black", image=btnDl, command=self.deleteClicked)
-        btn.image=btnDl
-        btn.place(x=650, y=450)
+        btn = Button(self, bd=0, bg="black", image=self.btnEd, command=self.editClicked)
+        btn.image=self.btnEd
+        btn.place(x=600, y=515)
+        btn = Button(self, bd=0, bg="black", image=self.btnDl, command=self.deleteClicked)
+        btn.image=self.btnDl
+        btn.place(x=650, y=515)
         self.btn3 = Button(self, bd=0, bg="black", image=self.btnAbout, command=self.aboutClicked)
         self.btn3.image = self.btnAbout
-        self.btn3.place(x=700, y=450)
+        self.btn3.place(x=700, y=515)
 ##        self.btn3.bind('<Enter>', self.btn3Enter)
 ##        self.btn3.bind('<Leave>', self.btn3Leave)
         
@@ -179,9 +162,9 @@ class Window(Frame):
         
     def displayRecord(self):
         # make a listbox
-        self.lb = Listbox(self, bd=0, activestyle="dotbox", bg="skyblue", height=16, width=27, font=("Tahoma", 12))
+        self.lb = Listbox(self, bd=0, bg="skyblue", height=18, width=20, font=("Tahoma", 12))
         self.lb.bind('<Double-Button-1>',self.lbSelected)
-        self.lb.place(x=35, y=170)
+        self.lb.place(x=45, y=170)
 
 ##        # make a scroll bar
 ##        self.sb = Scrollbar(self, bd=0, orient=VERTICAL)
