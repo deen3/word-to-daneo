@@ -25,19 +25,18 @@ class Window(Frame):
         global CURRTRANS
         global CURRHAN
         global CURRDIF
-        global NOTIF
+        
         
         CURRID = StringVar()
         CURRWORD = StringVar()
         CURRTRANS = StringVar()
         CURRHAN = StringVar()
         CURRDIF = StringVar()
+        
+        global NOTIF
         NOTIF = StringVar()
 
         NOTIF.set("To look up a word, type your search above.")
-
-        self.displayRecord()
-        print("HERE")
          
         # changing the title of our master widget      
         self.master.title("WORD-TO-DANEO")
@@ -252,23 +251,26 @@ class Window(Frame):
         btn.place(x=500, y=400)
         
     def editClicked(self):
-        self.refresh()
+        if CURRID.get() == "":
+            showwarning(title="Updating Record", message="Please select a record to modify!")            
+        else:
+            self.refresh()
 
-        self.form(CURRWORD.get(), CURRTRANS.get(), CURRHAN.get(), CURRDIF.get())
+            self.form(CURRWORD.get(), CURRTRANS.get(), CURRHAN.get(), CURRDIF.get())
 
-        # load images to use
-        load = Image.open("includes/img/btn_submit.png")
-        btnSb = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn_cancel.png")
-        btnCn = ImageTk.PhotoImage(load)
+            # load images to use
+            load = Image.open("includes/img/btn_submit.png")
+            btnSb = ImageTk.PhotoImage(load)
+            load = Image.open("includes/img/btn_cancel.png")
+            btnCn = ImageTk.PhotoImage(load)
 
-        # display buttons
-        btn = Button(self, bd=0, bg="black", image=btnSb, command=self.updateClicked)
-        btn.image=btnSb
-        btn.place(x=400, y=400)
-        btn = Button(self, bd=0, bg="black", image=btnCn, command=self.refresh)
-        btn.image=btnCn
-        btn.place(x=500, y=400)
+            # display buttons
+            btn = Button(self, bd=0, bg="black", image=btnSb, command=self.updateClicked)
+            btn.image=btnSb
+            btn.place(x=400, y=400)
+            btn = Button(self, bd=0, bg="black", image=btnCn, command=self.refresh)
+            btn.image=btnCn
+            btn.place(x=500, y=400)
         
     def deleteClicked(self):
         if CURRID.get() == "":
