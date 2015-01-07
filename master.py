@@ -25,27 +25,25 @@ class Window(Frame):
         global CURRTRANS
         global CURRHAN
         global CURRDIF
+        global NOTIF
         
         CURRID = StringVar()
         CURRWORD = StringVar()
         CURRTRANS = StringVar()
         CURRHAN = StringVar()
         CURRDIF = StringVar()
-        
-        self.displayRecord()
-        
-        global NOTIF
-
         NOTIF = StringVar()
+
         NOTIF.set("To look up a word, type your search above.")
+
+        self.displayRecord()
+        print("HERE")
          
         # changing the title of our master widget      
         self.master.title("WORD-TO-DANEO")
 
         # setting the icon
-        load = Image.open("includes/img/icon.png")
-        icon = ImageTk.PhotoImage(load)
-        self.tk.call('wm', 'iconphoto', root._w, icon)
+        self.tk.call('wm', 'iconphoto', root._w, ImageTk.PhotoImage(Image.open("includes/img/icon.png")))
  
         # allowing the widget to take the full space of the root window
         self.pack(fill=BOTH, expand=1)
@@ -75,19 +73,21 @@ class Window(Frame):
         btn.image = btnSearch
         btn.place(x=210, y=100)
 
-        # display side buttons
+        # display add button
         self.btn2 = Button(self, bd=0, bg="black", image=self.btnAdd, command=self.addClicked)
         self.btn2.image = self.btnAdd
         self.btn2.place(x=550, y=515)
 ##        self.btn2.bind('<Enter>', self.btn2Enter)
 ##        self.btn2.bind('<Leave>', self.btn2Leave)
-        # display buttons
+        # display edit button
         btn = Button(self, bd=0, bg="black", image=self.btnEd, command=self.editClicked)
         btn.image=self.btnEd
         btn.place(x=600, y=515)
+        # display delete button
         btn = Button(self, bd=0, bg="black", image=self.btnDl, command=self.deleteClicked)
         btn.image=self.btnDl
         btn.place(x=650, y=515)
+        # display about button
         self.btn3 = Button(self, bd=0, bg="black", image=self.btnAbout, command=self.aboutClicked)
         self.btn3.image = self.btnAbout
         self.btn3.place(x=700, y=515)
@@ -113,6 +113,31 @@ class Window(Frame):
     def btn3Leave(self, no):
         self.btn3.configure(image = self.btnAbout)
         self.btn3.configure(bd = 0)
+
+            
+    def displayRecord(self):
+        # make a listbox
+        self.lb = Listbox(self, bd=0, bg="skyblue", height=18, width=20, font=("Tahoma", 12))
+        self.lb.bind('<Double-Button-1>',self.lbSelected)
+        self.lb.place(x=45, y=170)
+
+##        # make a scroll bar
+##        self.sb = Scrollbar(self, bd=0, orient=VERTICAL)
+##        self.sb.place(x=375, y=140)
+##
+##        # join lb and sb
+##        self.sb.configure(command = self.lb.yview)
+##        self.lb.configure(yscrollcommand = self.sb.set)
+        
+        # put values in lb from db
+        conn = sqlite3.connect("try.s3db")
+        cur = conn.execute("SELECT * FROM daneo ORDER BY english_word")
+        try:
+            first_row = next(cur)
+            for row in chain((first_row,),cur):
+                self.lb.insert(END, row[1])
+        except StopIteration as e:
+            self.lb.insert(END,"Empty Record")
     
     def displayInfo(self, word):
         try:
@@ -159,30 +184,6 @@ class Window(Frame):
                 conn.close()
 
         self.displayRecord()
-        
-    def displayRecord(self):
-        # make a listbox
-        self.lb = Listbox(self, bd=0, bg="skyblue", height=18, width=20, font=("Tahoma", 12))
-        self.lb.bind('<Double-Button-1>',self.lbSelected)
-        self.lb.place(x=45, y=170)
-
-##        # make a scroll bar
-##        self.sb = Scrollbar(self, bd=0, orient=VERTICAL)
-##        self.sb.place(x=375, y=140)
-##
-##        # join lb and sb
-##        self.sb.configure(command = self.lb.yview)
-##        self.lb.configure(yscrollcommand = self.sb.set)
-        
-        # put values in lb from db
-        conn = sqlite3.connect("try.s3db")
-        cur = conn.execute("SELECT * FROM daneo ORDER BY english_word")
-        try:
-            first_row = next(cur)
-            for row in chain((first_row,),cur):
-                self.lb.insert(END, row[1])
-        except StopIteration as e:
-            self.lb.insert(END,"Empty Record")
 
     def form(self, word, trans, han, dif):
         w = StringVar()
@@ -225,15 +226,14 @@ class Window(Frame):
         else:
             showwarning(title="Empty Search Field", message="Search field is empty!")
 
-    def mainClicked(self):
+    def refresh(self):
         # clear the window
         self.init_window()
         self.displayRecord()
-
-    def addClicked(self):
-        # clear the window
-        self.init_window()
         NOTIF.set("")
+    
+    def addClicked(self):
+        self.refresh()
 
         self.form("","","","")
         
@@ -247,14 +247,12 @@ class Window(Frame):
         btn = Button(self, bd=0, bg="black", image=btnSb, command=self.submitClicked)
         btn.image=btnSb
         btn.place(x=400, y=400)
-        btn = Button(self, bd=0, bg="black", image=btnCn, command=self.mainClicked)
+        btn = Button(self, bd=0, bg="black", image=btnCn, command=self.refresh)
         btn.image=btnCn
         btn.place(x=500, y=400)
         
     def editClicked(self):
-        # clear the window
-        self.init_window()
-        NOTIF.set("")
+        self.refresh()
 
         self.form(CURRWORD.get(), CURRTRANS.get(), CURRHAN.get(), CURRDIF.get())
 
@@ -268,7 +266,7 @@ class Window(Frame):
         btn = Button(self, bd=0, bg="black", image=btnSb, command=self.updateClicked)
         btn.image=btnSb
         btn.place(x=400, y=400)
-        btn = Button(self, bd=0, bg="black", image=btnCn, command=self.mainClicked)
+        btn = Button(self, bd=0, bg="black", image=btnCn, command=self.refresh)
         btn.image=btnCn
         btn.place(x=500, y=400)
         
@@ -305,7 +303,7 @@ class Window(Frame):
                     conn.execute("INSERT INTO daneo (english_word, korean_word, hangeul, definition)VALUES('"+self.txtWord.get()+"', '"+self.txtTrans.get()+"', '"+self.txtHan.get()+"', '"+self.txtDif.get(1.0,END)[:-1]+"')")
                     conn.commit()
                     showinfo(title="Adding Successful", message="Successfully Added to Dictionary!")
-                    self.mainClicked()
+                    self.refresh()
 
             except sqlite3.Error as e:            
                 showwarning(title="Adding Failed", message=e)
@@ -324,7 +322,7 @@ class Window(Frame):
                 conn.execute("UPDATE daneo SET english_word='"+self.txtWord.get()+"', korean_word='"+self.txtTrans.get()+"', hangeul='"+self.txtHan.get()+"', definition='"+self.txtDif.get(1.0,END)[:-1]+"' WHERE daneo_id='"+CURRID.get()+"'")
                 conn.commit()
                 showinfo(title="Updating Successful", message="Successfully Updated to Dictionary!")
-                self.mainClicked()
+                self.refresh()
                 
             except sqlite3.Error as e:            
                 showwarning(title="Editing Failed", message=e)
@@ -336,12 +334,9 @@ class Window(Frame):
             showwarning(title="Empty Required Fields", message="All fields must be filled before submission!")
 
     def aboutClicked(self):
-        # clear the window
-        self.init_window()
-        NOTIF.set("")
+        self.refresh()
 
-        load = Image.open("includes/img/about.png")
-        abtim = ImageTk.PhotoImage(load)
+        abtim = ImageTk.PhotoImage(Image.open("includes/img/about.png"))
         
         abt = Label(self, bd=0, image=abtim)
         abt.image = abtim
@@ -358,7 +353,6 @@ root.geometry("800x600")
  
 #creation of an instance
 app = Window(root)
- 
  
 #mainloop 
 root.mainloop() 
