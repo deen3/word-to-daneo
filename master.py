@@ -268,8 +268,8 @@ class Window(Frame):
             btnCn = ImageTk.PhotoImage(Image.open("includes/img/cancel.png"))
 
             # display buttons
-            btn = Button(self, bd=0, bg="black", image=btnSb, command=self.updateClicked)
-            btn.image=btnSb
+            btn = Button(self, bd=0, bg="black", image=btnSa, command=self.updateClicked)
+            btn.image=btnSa
             btn.place(x=400, y=400)
             btn = Button(self, bd=0, bg="black", image=btnCn, command=self.refresh)
             btn.image=btnCn
