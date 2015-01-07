@@ -20,6 +20,20 @@ class Window(Frame):
         self.displayRecord()
  
     def init_window(self):
+        global CURRID
+        global CURRWORD
+        global CURRTRANS
+        global CURRHAN
+        global CURRDIF
+        
+        CURRID = StringVar()
+        CURRWORD = StringVar()
+        CURRTRANS = StringVar()
+        CURRHAN = StringVar()
+        CURRDIF = StringVar()
+        
+        self.displayRecord()
+        
         global NOTIF
 
         NOTIF = StringVar()
@@ -37,23 +51,24 @@ class Window(Frame):
         self.pack(fill=BOTH, expand=1)
 
         # load images to use
-        load = Image.open("includes/img/bg.png")
-        bg = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn.png")
-        btnIm = ImageTk.PhotoImage(load)
+        bg = ImageTk.PhotoImage(Image.open("includes/img/bg.png"))
+        btnIm = ImageTk.PhotoImage(Image.open("includes/img/search.png"))
         load = Image.open("includes/img/btn_main.png")
         self.btnMain = ImageTk.PhotoImage(load)
         load = Image.open("includes/img/btn_mainH.png")
         self.btnMainH = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn_add.png")
+        load = Image.open("includes/img/add.png")
         self.btnAdd = ImageTk.PhotoImage(load)
         load = Image.open("includes/img/btn_addH.png")
         self.btnAddH = ImageTk.PhotoImage(load)
-        load = Image.open("includes/img/btn_about.png")
+        load = Image.open("includes/img/aboutBtn.png")
         self.btnAbout = ImageTk.PhotoImage(load)
         load = Image.open("includes/img/btn_aboutH.png")
         self.btnAboutH = ImageTk.PhotoImage(load)
-        
+        # load images to use
+        btnEd = ImageTk.PhotoImage(Image.open("includes/img/edit.png"))
+        btnDl = ImageTk.PhotoImage(Image.open("includes/img/delete.png"))
+
         # display background
         img = Label(self, image=bg)
         img.image = bg
@@ -63,33 +78,39 @@ class Window(Frame):
         self.lbl.place(x=450, y=150)
 
         # display search textbox
-        self.txtSearch = Entry(self, bd=0, bg="skyblue", width="40")
-        self.txtSearch.place(x=330, y=80)
+        self.txtSearch = Entry(self, bd=0, width="28")
+        self.txtSearch.place(x=50, y=140)
         
         # display search button
         btn = Button(self, bd=0, bg="skyblue", cursor="hand1", image=btnIm, command=self.searchClicked)
         btn.image = btnIm
-        btn.place(x=590, y=59)
+        btn.place(x=230, y=128)
 
         # display side buttons
-        self.btn1 = Button(self, bd=0, bg="skyblue", image=self.btnMain, command=self.mainClicked)
+        self.btn1 = Button(self, bd=0, bg="black", image=self.btnMain, command=self.mainClicked)
         self.btn1.image = self.btnMain
-        self.btn1.place(x=50, y=150)
-        self.btn1.bind('<Enter>', self.btn1Enter)
-        self.btn1.bind('<Leave>', self.btn1Leave)
-        
-        self.btn2 = Button(self, bd=0, bg="skyblue", image=self.btnAdd, command=self.addClicked)
+        self.btn1.place(x=100, y=450)
+##        self.btn1.bind('<Enter>', self.btn1Enter)
+##        self.btn1.bind('<Leave>', self.btn1Leave)
+##        
+        self.btn2 = Button(self, bd=0, bg="black", image=self.btnAdd, command=self.addClicked)
         self.btn2.image = self.btnAdd
-        self.btn2.place(x=50, y=230)
-        self.btn2.bind('<Enter>', self.btn2Enter)
-        self.btn2.bind('<Leave>', self.btn2Leave)
-
-        self.btn3 = Button(self, bd=0, bg="skyblue", image=self.btnAbout, command=self.aboutClicked)
+        self.btn2.place(x=550, y=450)
+##        self.btn2.bind('<Enter>', self.btn2Enter)
+##        self.btn2.bind('<Leave>', self.btn2Leave)
+        # display buttons
+        btn = Button(self, bd=0, bg="black", image=btnEd, command=self.editClicked)
+        btn.image=btnEd
+        btn.place(x=600, y=450)
+        btn = Button(self, bd=0, bg="black", image=btnDl, command=self.deleteClicked)
+        btn.image=btnDl
+        btn.place(x=650, y=450)
+        self.btn3 = Button(self, bd=0, bg="black", image=self.btnAbout, command=self.aboutClicked)
         self.btn3.image = self.btnAbout
-        self.btn3.place(x=50, y=310)
-        self.btn3.bind('<Enter>', self.btn3Enter)
-        self.btn3.bind('<Leave>', self.btn3Leave)
-
+        self.btn3.place(x=700, y=450)
+##        self.btn3.bind('<Enter>', self.btn3Enter)
+##        self.btn3.bind('<Leave>', self.btn3Leave)
+        
     def btn1Enter(self, event):
         self.btn1.configure(image = self.btnMainH)
         self.btn1.configure(bd = 3)
@@ -111,18 +132,6 @@ class Window(Frame):
         self.btn3.configure(bd = 0)
     
     def displayInfo(self, word):
-        global CURRID
-        global CURRWORD
-        global CURRTRANS
-        global CURRHAN
-        global CURRDIF
-        
-        CURRID = StringVar()
-        CURRWORD = StringVar()
-        CURRTRANS = StringVar()
-        CURRHAN = StringVar()
-        CURRDIF = StringVar()
-        
         try:
             conn = sqlite3.connect("try.s3db")
 
@@ -154,20 +163,6 @@ class Window(Frame):
                     self.lbl = Label(self, bd=0, text=row[4], bg="skyblue", font=("Tahoma", 12))
                     self.lbl.place(x=480, y=275)
 
-                # load images to use
-                load = Image.open("includes/img/btn_edit.png")
-                btnEd = ImageTk.PhotoImage(load)
-                load = Image.open("includes/img/btn_delete.png")
-                btnDl = ImageTk.PhotoImage(load)
-
-                # display buttons
-                btn = Button(self, bd=0, bg="black", image=btnEd, command=self.editClicked)
-                btn.image=btnEd
-                btn.place(x=570, y=420)
-                btn = Button(self, bd=0, bg="black", image=btnDl, command=self.deleteClicked)
-                btn.image=btnDl
-                btn.place(x=650, y=420)
-        
             except StopIteration as e:
                     # clear the window
                     self.init_window()
@@ -184,9 +179,9 @@ class Window(Frame):
         
     def displayRecord(self):
         # make a listbox
-        self.lb = Listbox(self, bd=0, activestyle="dotbox", bg="lightgreen", height=16, width=13, font=("Tahoma", 12))
+        self.lb = Listbox(self, bd=0, activestyle="dotbox", bg="skyblue", height=16, width=27, font=("Tahoma", 12))
         self.lb.bind('<Double-Button-1>',self.lbSelected)
-        self.lb.place(x=270, y=140)
+        self.lb.place(x=35, y=170)
 
 ##        # make a scroll bar
 ##        self.sb = Scrollbar(self, bd=0, orient=VERTICAL)
@@ -295,21 +290,24 @@ class Window(Frame):
         btn.place(x=500, y=400)
         
     def deleteClicked(self):
-        if askyesno(title="Deleting Record", message="Are you sure you want to delete "+CURRWORD.get()+"?") is True:
-            try:
-                conn = sqlite3.connect("try.s3db")
+        if CURRID.get() == "":
+            showwarning(title="Deleting Record", message="Please select a record to delete!")            
+        else:
+            if askyesno(title="Deleting Record", message="Are you sure you want to delete "+CURRWORD.get()+"?") is True:
+                try:
+                    conn = sqlite3.connect("try.s3db")
 
-                conn.execute("DELETE FROM daneo WHERE english_word='"+CURRWORD.get()+"' AND daneo_id='"+CURRID.get()+"'")
-                conn.commit()
-                showinfo(title="Delete Successful", message="Successfully Deleted to Dictionary!")            
-                self.mainClicked()
+                    conn.execute("DELETE FROM daneo WHERE english_word='"+CURRWORD.get()+"' AND daneo_id='"+CURRID.get()+"'")
+                    conn.commit()
+                    showinfo(title="Delete Successful", message="Successfully Deleted to Dictionary!")            
+                    self.mainClicked()
+                        
+                except sqlite3.Error as e:            
+                    showwarning(title="Adding Failed", message=e)
                     
-            except sqlite3.Error as e:            
-                showwarning(title="Adding Failed", message=e)
-                
-            finally:
-                if conn:
-                    conn.close()
+                finally:
+                    if conn:
+                        conn.close()
 
     def submitClicked(self):
         if self.txtWord.get() != "" and self.txtTrans.get() != "" and self.txtDif.get(1.0,END)[:-1] != "":
