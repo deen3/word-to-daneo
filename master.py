@@ -1,5 +1,6 @@
 import sqlite3
 from tkinter import *
+from PIL import Image, ImageTk
 from tkinter.messagebox import *
 from itertools import chain
  
@@ -28,21 +29,21 @@ class Window(Frame):
         self.master.title("WORD-TO-DANEO")
 
         # setting the icon
-        icon = PhotoImage(file="includes/img/icon.png")
+        icon = ImageTk.PhotoImage(Image.open("includes/img/icon.png"))
         self.tk.call('wm', 'iconphoto', root._w, icon)
  
         # allowing the widget to take the full space of the root window
         self.pack(fill=BOTH, expand=1)
 
         # load images to use
-        bg = PhotoImage(file="includes/img/bg.png")
-        btnIm = PhotoImage(file="includes/img/btn.png")
-        self.btnMain = PhotoImage(file="includes/img/btn_main.png")
-        self.btnMainH = PhotoImage(file="includes/img/btn_mainH.png")
-        self.btnAdd = PhotoImage(file="includes/img/btn_add.png")
-        self.btnAddH = PhotoImage(file="includes/img/btn_addH.png")
-        self.btnAbout = PhotoImage(file="includes/img/btn_about.png")
-        self.btnAboutH = PhotoImage(file="includes/img/btn_aboutH.png")
+        bg = ImageTk.PhotoImage(Image.open("includes/img/bg.png"))
+        btnIm = ImageTk.PhotoImage(Image.open("includes/img/btn.png"))
+        self.btnMain = ImageTk.PhotoImage(Image.open("includes/img/btn_main.png"))
+        self.btnMainH = ImageTk.PhotoImage(Image.open("includes/img/btn_mainH.png"))
+        self.btnAdd = ImageTk.PhotoImage(Image.open("includes/img/btn_add.png"))
+        self.btnAddH = ImageTk.PhotoImage(Image.open("includes/img/btn_addH.png"))
+        self.btnAbout = ImageTk.PhotoImage(Image.open("includes/img/btn_about.png"))
+        self.btnAboutH = ImageTk.PhotoImage(Image.open("includes/img/btn_aboutH.png"))
         
         # display background
         img = Label(self, image=bg)
@@ -53,30 +54,30 @@ class Window(Frame):
         self.lbl.place(x=450, y=150)
 
         # display search textbox
-        self.txtSearch = Entry(self, bd=0, bg="skyblue", width="40")
-        self.txtSearch.place(x=330, y=80)
+        self.txtSearch = Entry(self, bd=0, bg="skyblue", width="30")
+        self.txtSearch.place(x=25, y=110)
         
         # display search button
         btn = Button(self, bd=0, bg="skyblue", cursor="hand1", image=btnIm, command=self.searchClicked)
         btn.image = btnIm
-        btn.place(x=590, y=59)
+        btn.place(x=210, y=100)
 
         # display side buttons
         self.btn1 = Button(self, bd=0, bg="skyblue", image=self.btnMain, command=self.mainClicked)
         self.btn1.image = self.btnMain
-        self.btn1.place(x=50, y=150)
+        self.btn1.place(x=280, y=70)
         self.btn1.bind('<Enter>', self.btn1Enter)
         self.btn1.bind('<Leave>', self.btn1Leave)
         
         self.btn2 = Button(self, bd=0, bg="skyblue", image=self.btnAdd, command=self.addClicked)
         self.btn2.image = self.btnAdd
-        self.btn2.place(x=50, y=230)
+        self.btn2.place(x=445, y=70)
         self.btn2.bind('<Enter>', self.btn2Enter)
         self.btn2.bind('<Leave>', self.btn2Leave)
 
         self.btn3 = Button(self, bd=0, bg="skyblue", image=self.btnAbout, command=self.aboutClicked)
         self.btn3.image = self.btnAbout
-        self.btn3.place(x=50, y=310)
+        self.btn3.place(x=610, y=70)
         self.btn3.bind('<Enter>', self.btn3Enter)
         self.btn3.bind('<Leave>', self.btn3Leave)
 
@@ -145,8 +146,8 @@ class Window(Frame):
                     self.lbl.place(x=480, y=275)
 
                 # load images to use
-                btnEd = PhotoImage(file="includes/img/btn_edit.png")
-                btnDl = PhotoImage(file="includes/img/btn_delete.png")
+                btnEd = ImageTk.PhotoImage(Image.open("includes/img/btn_edit.png"))
+                btnDl = ImageTk.PhotoImage(Image.open("includes/img/btn_delete.png"))
 
                 # display buttons
                 btn = Button(self, bd=0, bg="black", image=btnEd, command=self.editClicked)
@@ -171,10 +172,11 @@ class Window(Frame):
         self.displayRecord()
         
     def displayRecord(self):
+        fr = Frame (self, width=50, height=50).place(x=45, y=150)
         # make a listbox
-        self.lb = Listbox(self, bd=0, activestyle="dotbox", bg="lightgreen", height=16, width=13, font=("Tahoma", 12))
+        self.lb = Listbox(fr, bd=0, activestyle="dotbox", bg="lightgreen", height=20, width=20, font=("Tahoma", 12))
         self.lb.bind('<Double-Button-1>',self.lbSelected)
-        self.lb.place(x=270, y=140)
+        self.lb.place(x=45, y=150)
 
 ##        # make a scroll bar
 ##        self.sb = Scrollbar(self, bd=0, orient=VERTICAL)
@@ -208,23 +210,23 @@ class Window(Frame):
         
         # display input textboxes
         self.txtWord = Entry(self, bd=0, bg="lightgreen", width="37", textvariable=w, font=("Tahoma", 11))
-        self.txtWord.place(x=400, y=160)
+        self.txtWord.place(x=430, y=160)
 
         self.txtTrans = Entry(self, bd=0, bg="lightgreen", width="33", textvariable=t, font=("Tahoma", 12))
-        self.txtTrans.place(x=400, y=200)
+        self.txtTrans.place(x=430, y=200)
 
         self.txtHan = Entry(self, bd=0, bg="lightgreen", width="33", textvariable=h, font=("Tahoma", 12))
-        self.txtHan.place(x=400, y=240)
+        self.txtHan.place(x=430, y=240)
 
         self.txtDif = Text(self, bd=0, bg="lightgreen", width="33", height="5", font=("Tahoma", 12))# textvariable=d,
-        self.txtDif.place(x=400, y=280)
+        self.txtDif.place(x=430, y=280)
         self.txtDif.insert(INSERT, d.get())
 
         # display labels
-        Label(self, bd=0, text="English Word:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=160)
-        Label(self, bd=0, text="Korean Translation:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=200)
-        Label(self, bd=0, text="Korean Writing:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=240)
-        Label(self, bd=0, text="Definition:", bg="skyblue", font=("Agency FB", 16)).place(x=280, y=280)
+        Label(self, bd=0, text="English Word:", bg="skyblue", font=("Agency FB", 16)).place(x=315, y=160)
+        Label(self, bd=0, text="Korean Translation:", bg="skyblue", font=("Agency FB", 16)).place(x=315, y=200)
+        Label(self, bd=0, text="Korean Writing:", bg="skyblue", font=("Agency FB", 16)).place(x=315, y=240)
+        Label(self, bd=0, text="Definition:", bg="skyblue", font=("Agency FB", 16)).place(x=315, y=280)
 
     def lbSelected(self, event):
         self.displayInfo(self.lb.get(ACTIVE))
@@ -248,8 +250,10 @@ class Window(Frame):
         self.form("","","","")
         
         # load images to use
-        btnSb = PhotoImage(file="includes/img/btn_submit.png")
-        btnCn = PhotoImage(file="includes/img/btn_cancel.png")
+        load = Image.open("includes/img/btn_submit.png")
+        btnSb = ImageTk.PhotoImage(load)
+        load = Image.open("includes/img/btn_cancel.png")
+        btnCn = ImageTk.PhotoImage(load)
 
         # display buttons
         btn = Button(self, bd=0, bg="black", image=btnSb, command=self.submitClicked)
@@ -267,8 +271,10 @@ class Window(Frame):
         self.form(CURRWORD.get(), CURRTRANS.get(), CURRHAN.get(), CURRDIF.get())
 
         # load images to use
-        btnSb = PhotoImage(file="includes/img/btn_submit.png")
-        btnCn = PhotoImage(file="includes/img/btn_cancel.png")
+        load = Image.open("includes/img/btn_submit.png")
+        btnSb = ImageTk.PhotoImage(load)
+        load = Image.open("includes/img/btn_cancel.png")
+        btnCn = ImageTk.PhotoImage(load)
 
         # display buttons
         btn = Button(self, bd=0, bg="black", image=btnSb, command=self.updateClicked)
@@ -300,12 +306,12 @@ class Window(Frame):
             try:
                 conn = sqlite3.connect("try.s3db")
 
-                cur = conn.execute("SELECT count(*) FROM daneo WHERE english_word='"+self.txtWord.get().lower()+"'")
+                cur = conn.execute("SELECT count(*) FROM daneo WHERE english_word='"+self.txtWord.get()+"'")
 
                 if cur.fetchone()[0]:
-                    showwarning(title="Adding Failed", message="'"+self.txtWord.get()+"' is already exist in the database.")
+                    showwarning(title="Adding Failed", message="'"+self.txtWord.get()+"' is already existed in the database.")
                 else:
-                    conn.execute("INSERT INTO daneo (english_word, korean_word, hangeul, definition)VALUES('"+self.txtWord.get().lower()+"', '"+self.txtTrans.get()+"', '"+self.txtHan.get()+"', '"+self.txtDif.get(1.0,END)[:-1]+"')")
+                    conn.execute("INSERT INTO daneo (english_word, korean_word, hangeul, definition)VALUES('"+self.txtWord.get()+"', '"+self.txtTrans.get()+"', '"+self.txtHan.get()+"', '"+self.txtDif.get(1.0,END)[:-1]+"')")
                     conn.commit()
                     showinfo(title="Adding Successful", message="Successfully Added to Dictionary!")
                     self.mainClicked()
@@ -343,7 +349,8 @@ class Window(Frame):
         self.init_window()
         NOTIF.set("")
 
-        abtim = PhotoImage(file="includes/img/about.png")
+        load = Image.open("includes/img/about.png")
+        abtim = ImageTk.PhotoImage(load)
         
         abt = Label(self, bd=0, image=abtim)
         abt.image = abtim
