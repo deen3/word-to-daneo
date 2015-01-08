@@ -51,7 +51,7 @@ class Window(Frame):
         img.place(x=-2, y=-2)
 
         self.lbl = Label(self, bd=0, textvariable=NOTIF, bg="skyblue",  font=("Agency FB", 16), fg="red")
-        self.lbl.place(x=450, y=150)
+        self.lbl.place(x=400, y=150)
 
         # display search textbox
         self.txtSearch = Entry(self, bd=0, bg="skyblue", width="30")
@@ -152,10 +152,10 @@ class Window(Frame):
                 # display buttons
                 btn = Button(self, bd=0, bg="black", image=btnEd, command=self.editClicked)
                 btn.image=btnEd
-                btn.place(x=570, y=420)
+                btn.place(x=600, y=500)
                 btn = Button(self, bd=0, bg="black", image=btnDl, command=self.deleteClicked)
                 btn.image=btnDl
-                btn.place(x=650, y=420)
+                btn.place(x=670, y=500)
         
             except StopIteration as e:
                     # clear the window
@@ -174,7 +174,7 @@ class Window(Frame):
     def displayRecord(self):
         fr = Frame (self, width=50, height=50).place(x=45, y=150)
         # make a listbox
-        self.lb = Listbox(fr, bd=0, activestyle="dotbox", bg="lightgreen", height=20, width=20, font=("Tahoma", 12))
+        self.lb = Listbox(fr, bd=0, activestyle="dotbox", bg="lightgreen", height=15, width=20, font=("Agency FB", 16))
         self.lb.bind('<Double-Button-1>',self.lbSelected)
         self.lb.place(x=45, y=150)
 
@@ -258,10 +258,10 @@ class Window(Frame):
         # display buttons
         btn = Button(self, bd=0, bg="black", image=btnSb, command=self.submitClicked)
         btn.image=btnSb
-        btn.place(x=400, y=400)
+        btn.place(x=600, y=500)
         btn = Button(self, bd=0, bg="black", image=btnCn, command=self.mainClicked)
         btn.image=btnCn
-        btn.place(x=500, y=400)
+        btn.place(x=680, y=500)
         
     def editClicked(self):
         # clear the window
@@ -279,10 +279,10 @@ class Window(Frame):
         # display buttons
         btn = Button(self, bd=0, bg="black", image=btnSb, command=self.updateClicked)
         btn.image=btnSb
-        btn.place(x=400, y=400)
+        btn.place(x=600, y=500)
         btn = Button(self, bd=0, bg="black", image=btnCn, command=self.mainClicked)
         btn.image=btnCn
-        btn.place(x=500, y=400)
+        btn.place(x=680, y=500)
         
     def deleteClicked(self):
         if askyesno(title="Deleting Record", message="Are you sure you want to delete "+CURRWORD.get()+"?") is True:
@@ -306,12 +306,12 @@ class Window(Frame):
             try:
                 conn = sqlite3.connect("try.s3db")
 
-                cur = conn.execute("SELECT count(*) FROM daneo WHERE english_word='"+self.txtWord.get()+"'")
+                cur = conn.execute("SELECT count(*) FROM daneo WHERE english_word='"+self.txtWord.get().lower()+"'")
 
                 if cur.fetchone()[0]:
                     showwarning(title="Adding Failed", message="'"+self.txtWord.get()+"' is already existed in the database.")
                 else:
-                    conn.execute("INSERT INTO daneo (english_word, korean_word, hangeul, definition)VALUES('"+self.txtWord.get()+"', '"+self.txtTrans.get()+"', '"+self.txtHan.get()+"', '"+self.txtDif.get(1.0,END)[:-1]+"')")
+                    conn.execute("INSERT INTO daneo (english_word, korean_word, hangeul, definition)VALUES('"+self.txtWord.get().lower()+"', '"+self.txtTrans.get()+"', '"+self.txtHan.get()+"', '"+self.txtDif.get(1.0,END)[:-1]+"')")
                     conn.commit()
                     showinfo(title="Adding Successful", message="Successfully Added to Dictionary!")
                     self.mainClicked()
